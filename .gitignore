@@ -1,0 +1,14 @@
+__pycache__/
+.vscode/
+
+/dumb
+
+/wandb
+/output
+/utils
+/tmp
+/exports
+/old
+/*-old/
+
+test_*.py
