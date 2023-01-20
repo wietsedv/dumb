@@ -107,6 +107,84 @@ Most datasets can be downloaded automatically, except for these datasets that ha
 
 After generating the data, you can use the jsonl files in the `dumb` directory, or you can use it via the `datasets` library with `load_dataset('hf_datasets/dumb', 'TASK')` where task is one of kebab-cased task names in the table above.
 
+## Examples
+
+These are example items for each task, selected from training data.
+
+### POS: Part-Of-Speech Tagging (Lassy)
+
+Provide POS tags for every word in the sentence.
+
+| Sentence                                                         | Tagged Sentence                                                                                                                                                                                                                                                                                                                                          |
+| ---------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Scoubidou-touwtjes zijn veilig in de hand, maar niet in de mond. | [**N\|soort\|mv\|dim** Scoubidou-touwtjes] [**WW\|pv\|tgw\|mv** zijn] [**ADJ\|vrij\|basis\|zonder** veilig] [VZ\|init in] [**LID\|bep\|stan\|rest** de] [**N\|soort\|ev\|basis\|zijd\|stan** hand] [**LET** ,] [**VG\|neven** maar] [**BW** niet] [**VZ\|init** in] [**LID\|bep\|stan\|rest** de] [**N\|soort\|ev\|basis\|zijd\|stan** mond] [**LET** .] |
+
+### NER: Named Entity Recognition (SoNaR)
+
+Mark all named entities in the sentence.
+
+| Sentence                                                                                                                                                                                    | Tagged Sentence                                                                                                                                                                                                                                                                  |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Topman Jack Welch van het Amerikaanse industriële concern General Electric (GE) verwerpt het aanbod van zijn collega van Honeywell om de beoogde fusie van de twee ondernemingen te redden. | Topman [**PERSON** Jack Welch] van het [**LOCATION** Amerikaanse] industriële concern [**ORGANIZATION** General Electric] ([**ORGANIZATION** GE]) verwerpt het aanbod van zijn collega van [**ORGANIZATION** Honeywell] om de beoogde fusie van de twee ondernemingen te redden. |
+| De radar wordt dit weekend gepresenteerd op het Vogelfestival in het natuurgebied de Oostvaardersplassen in Lelystad.                                                                       | De radar wordt dit weekend gepresenteerd op het [**EVENT** Vogelfestival] in het natuurgebied de [**LOCATION** Oostvaardersplassen] in [**LOCATION** Lelystad].                                                                                                                      |
+
+### WSD: Word Sense Disambiguation (WiC-NL)
+
+Determine whether the marked words in each sentence have the same sense.
+
+| Sentence 1                                                          | Sentence 2                                                                                                                                                                                                                                         | Label     |
+| ------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- |
+| In bijna elk **mechanisch** apparaat zijn wel assen te vinden.      | Mannen daarentegen zijn meer geboeid door mechaniek en willen nagenoeg altijd een **mechanisch** uurwerk.                                                                                                                                          | same      |
+| Het merendeel lijkt een **ijzige** kalmte over zich heen te hebben. | De schaatsgrootheden uit de tijd van de wollen muts en de **ijzig** koude buitenbanen met storm en sneeuw kunnen worden vergelijken met de schaatsgrootheden uit de tijd van gestoomlijnde pakken, klapschaats en en geconditioneerde binnenbanen. | different |
+
+### PR: Pronoun Resolution (DPR)
+
+Determine whether the marked pronoun refers to the marked entity.
+
+| Text                                                                                                                                                                                                                            | Label     |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- |
+| Toen kwam de aanslag op New York en **de generaal**, intussen president, werd voor de keuze gesteld. **Hij** nam het binnenlandse risico: confrontatie met zijn islamitische militanten, in plaats van met de Verenigde Staten. | same      |
+| Di Rupo weet waarom **hij** zich verzet tegen **het privatiseringsbeginsel**.                                                                                                                                                   | different |
+
+### CR: Causal Reasoning (COPA-NL)
+
+Choose the most plausible cause or effect, given a premise.
+
+| Premise                                                                                              | Choice 1                                          | Choice 2                                                              | Label    |
+| ---------------------------------------------------------------------------------------------------- | ------------------------------------------------- | --------------------------------------------------------------------- | -------- |
+| De vrouw bungelde het koekje boven de hond.<br><i>(The woman dangled the biscuit above the dog.)</i> | De hond sprong op.<br><i>(The dog jumped up.)</i> | De hond krabde aan zijn vacht.<br><i>(The dog scratched its fur.)</i> | Choice 1 |
+| De vrouw voelde zich eenzaam. | Ze renoveerde haar keuken. | Ze adopteerde een kat. | Choice 2 |
+
+
+### NLI: Natural Language Inference (SICK-NL)
+
+Classify whether the first sentence entails or contradicts the second sentence.
+
+| Sentence 1                                                                                                                                        | Sentence 2                                                                                                                                                 | Label         |
+| ------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
+| Een man met een trui is de bal aan het dunken bij een basketbalwedstrijd<br><i>(A man with a jersey is dunking the ball at a basketball game)</i> | De bal wordt gedunkt door een man met een trui bij een basketbalwedstrijd<br><i>(The ball is being dunked by a man with a jersey at a basketball game)</i> | entailment    |
+| Drie kinderen zitten in de bladeren<br><i>(Three kids are sitting in the leaves)</i>                                                              | Drie kinderen springen in de bladeren<br><i>(Three kids are jumping in the leaves)</i>                                                                     | neutral       |
+| Een man springt in een leeg bad<br><i>(A man is jumping into an empty pool)</i>                                                                   | Een man springt in een vol zwembad<br><i>(A man is jumping into a full pool)</i>                                                                           | contradiction |
+
+### ALD: Abusive Language Detection (DALC)
+
+Classify whether the tweet is abusive or offensive.
+
+| Text                                                                                                                                                                                                                                                                     | Label     |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------- |
+| Ach @USER wie neemt die nog serieus. Het gezellige dikkertje dat propogandeerde dat dik zijn, wat extra vet niet erg is en dat we gewoon lekker ongezond moeten eten wanneer we dat willen. En nu klagen over de kwetsbaren wat juist diegene zijn met teveel vetcellen. | abusive   |
+| @USER OMDAT VROUWEN MOEILIJKE WEZENS ZIJN (buik van vol)                                                                                                                                                                                                                 | offensive |
+| ABVV waarschuwt regering voor algemene staking                                                                                                                                                                                                                           | not       |
+
+### SA: Sentiment Analysis (DBRD)
+
+Classify whether the review is positive or negative.
+
+| Text                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | Label    |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| Het verhaal speelt zich af aan het einde van de 19e eeuw. Boeiend van begin tot eind, geeft het een inkijkje in het leven van arbeiders en wetenschappers in Barcelona. De industriële revolutie is net begonnen en de effecten daarvan tekenen zich af. Grote veranderingen op het gebied van de medische wetenschap spelen op de achtergrond van liefde, vriendschap, betrokkenheid en verraad. Fictie wordt vermengd met historische feiten op een meeslepende manier, pakkend begin, verrassend einde. Aanrader! | positive |
+| Eerlijk gezegd vindt ik dat dit boek vreemd is geschreven. De verhaallijnen gaan door elkaar heen en dat maakt het heel onduidelijk. Het onderwerp is wel goed bedacht                                                                                                                                                                                                                                                                                                                                               | negative |
+
 ## Models
 
 The following pre-trained language models are used in the paper and are listed on the leaderboard.
