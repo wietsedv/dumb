@@ -2,7 +2,7 @@ import json
 from scipy.stats import pearsonr
 import numpy as np
 
-tasks = {"lassy-pos": "POS", "sonar-ne": "NER", "wicnl": "WSD", "dpr": "PR", "copanl": "CR", "sicknl-nli": "NLI", "dbrd": "SA", "dalc": "ALD"}
+tasks = {"lassy-pos": "POS", "sonar-ne": "NER", "wicnl": "WSD", "dpr": "PR", "copanl": "CR", "sicknl-nli": "NLI", "dbrd": "SA", "dalc": "ALD", "squadnl": "QA"}
 
 with open("exports/table.json") as f:
     table = json.load(f)

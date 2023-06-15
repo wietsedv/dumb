@@ -8,28 +8,28 @@ from typing import Dict, Any
 import numpy as np
 import pandas as pd
 
-from constants import TASK_ORDER, MODEL_ORDER, CONFIG_KEYS, EVAL_SAMPLES, get_test_seeds
+from constants import TASK_ORDER, MODEL_ORDER, CONFIG_KEYS, get_test_seeds
 from best import load_results, find_best_results
 
 
-def find_missing_aux_runs(task, model, seed, res):
-    missing = []
-    if task not in EVAL_SAMPLES:
-        return missing
-    for samples in EVAL_SAMPLES[task]:
-        e = res["num_train_epochs"]
-        w = res["warmup_ratio"]
-        b = res["train_batch_size"]
-        l = np.format_float_positional(res["learning_rate"])
-        d = res["hidden_dropout_prob"]
-        c = res["weight_decay"]
-        config = f"e{e}-w{w}-b{b}-l{l}-d{d}-c{c}-m{samples}-s{seed}"
-        path = Path("output") / task / model / config / "eval_results.json"
-        if not path.exists():
-            env = {"model": model, "seed": seed, **{k: res[k] for k in CONFIG_KEYS.values()}}
-            env["max_train_samples"] = samples
-            missing.append((task, env))
-    return missing
+# def find_missing_aux_runs(task, model, seed, res):
+#     missing = []
+#     if task not in EVAL_SAMPLES:
+#         return missing
+#     for samples in EVAL_SAMPLES[task]:
+#         e = res["num_train_epochs"]
+#         w = res["warmup_ratio"]
+#         b = res["train_batch_size"]
+#         l = np.format_float_positional(res["learning_rate"])
+#         d = res["hidden_dropout_prob"]
+#         c = res["weight_decay"]
+#         config = f"e{e}-w{w}-b{b}-l{l}-d{d}-c{c}-m{samples}-s{seed}"
+#         path = Path("output") / task / model / config / "eval_results.json"
+#         if not path.exists():
+#             env = {"model": model, "seed": seed, **{k: res[k] for k in CONFIG_KEYS.values()}}
+#             env["max_train_samples"] = samples
+#             missing.append((task, env))
+#     return missing
 
 
 def find_missing_runs(tasks, models, best_results, aux: bool):
@@ -48,7 +48,8 @@ def find_missing_runs(tasks, models, best_results, aux: bool):
                     env = {"model": model, "seed": seed, **{k: res[k] for k in CONFIG_KEYS.values()}}
                     missing.append((task, env))
                 if aux:
-                    missing.extend(find_missing_aux_runs(task, model, seed, res))
+                    # missing.extend(find_missing_aux_runs(task, model, seed, res))
+                    raise NotImplementedError("aux missing runs")
 
     return missing
 

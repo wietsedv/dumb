@@ -47,7 +47,7 @@ def main():
 
     df = pd.DataFrame(sorted(rows, key=lambda x: [x[k] for k in args.sort if k in x]))
     pd.set_option('display.max_rows', None)
-    # pd.set_option('display.max_columns', 500)
+    pd.set_option('display.max_columns', None)
     print(df)
 
 

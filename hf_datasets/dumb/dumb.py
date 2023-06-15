@@ -124,6 +124,7 @@ class Dumb(datasets.GeneratorBasedBuilder):
         datasets.BuilderConfig(name="dpr"),
         datasets.BuilderConfig(name="sicknl-nli"),
         datasets.BuilderConfig(name="sonar-ne"),
+        datasets.BuilderConfig(name="squadnl"),
         datasets.BuilderConfig(name="wicnl"),
     ]
 
@@ -169,6 +170,21 @@ class Dumb(datasets.GeneratorBasedBuilder):
                 "tokens": datasets.Sequence(datasets.Value("string")),
                 "tags": datasets.Sequence(datasets.features.ClassLabel(names=_NER_TAGS)),
             })
+        elif self.config.name == "squadnl":
+            features = datasets.Features(
+                {
+                    "id": datasets.Value("string"),
+                    "title": datasets.Value("string"),
+                    "context": datasets.Value("string"),
+                    "question": datasets.Value("string"),
+                    "answers": datasets.features.Sequence(
+                        {
+                            "text": datasets.Value("string"),
+                            "answer_start": datasets.Value("int32"),
+                        }
+                    ),
+                }
+            )
         elif self.config.name == "wicnl":
             features = datasets.Features({
                 "tokens1": datasets.Sequence(datasets.Value("string")),

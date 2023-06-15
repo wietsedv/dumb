@@ -45,7 +45,7 @@ elif [ $model = "deberta-v3-large" ] && [ $train_batch_size = "32" ] && [ $task 
     train_batch_size=8
     gradient_accumulation_steps=4
 elif [[ $model == *-large ]] && [ $train_batch_size = "32" ]; then
-    if [ $task = "lassy-pos" ] || [ $task = "sonar-ne" ] || [ $task = "wicnl" ] || [ $task = "dalc" ] || [ $task = "dbrd" ]; then
+    if [ $task = "lassy-pos" ] || [ $task = "sonar-ne" ] || [ $task = "wicnl" ] || [ $task = "dalc" ] || [ $task = "dbrd" ] || [ $task = "squadnl" ]; then
         train_batch_size=16
         gradient_accumulation_steps=2
     fi
@@ -83,7 +83,7 @@ elif [ ${model} = "robbertje-bort" ]; then model_path="DTAI-KULeuven/robbertje-1
 else model_path="${model:-UNDEFINED}"
 fi
 
-"${cmd}" trainers/${trainer}.py $args \
+"${cmd}" -u trainers/${trainer}.py $args \
     --task_name "${task}" \
     --do_train \
     --do_eval \

@@ -3,10 +3,19 @@ from statsmodels.stats.anova import anova_lm
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import json
+import numpy as np
 
 sns.set_style("whitegrid")
 
-df = pd.read_csv("exports/table.csv", sep=";")
+# df = pd.read_csv("exports/table.csv", sep=";")
+
+with open("exports/table.json") as f:
+    data = json.load(f)
+
+rows = [{"Language": row["lang"], "Model": row["type"], "Size": row["size"], "RER": np.mean([t["rer"] * 100 for t in row["tasks"].values()]) } for row in data]
+
+df = pd.DataFrame(rows)
 # print(df)
 
 ma = sm.OLS.from_formula("RER ~ Language", df).fit()

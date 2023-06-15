@@ -26,7 +26,7 @@ _HOMEPAGE = ""
 # TODO: Add the licence for the dataset here if you can find it
 _LICENSE = "bsd-2-clause"
 
-_URL = "https://github.com/ANONYMOUS/NLP-NL/archive/refs/tags/copa-nl-v1.0.tar.gz"
+_URL = "https://github.com/wietsedv/NLP-NL/archive/refs/tags/copa-nl-v1.0.tar.gz"
 
 
 class CopaNL(datasets.GeneratorBasedBuilder):

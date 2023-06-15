@@ -68,7 +68,7 @@ def find_best_results(results):
         res_list = results[(task, model)]
         res = max(res_list, key=lambda x: x["dev_score"])
 
-        res["dev_score"] = res["dev_score"] * 100
+        res["dev_score"] = res["dev_score"] * 100 if res["dev_score"] < 1 else res["dev_score"]
 
         # eval and test scores with different seeds
         res["eval_scores"], res["test_scores"] = [], []
@@ -84,6 +84,11 @@ def find_best_results(results):
                     if f"predict_{res['metric']}" in d:
                         res["eval_scores"].append(d[f"eval_{res['metric']}"] * 100)
                         res["test_scores"].append(d[f"predict_{res['metric']}"] * 100)
+                        res["eval_seeds"].append(test_seed)
+                        res["eval_paths"].append(path.parent)
+                    elif f"test_{res['metric']}" in d:
+                        res["eval_scores"].append(d[f"eval_{res['metric']}"])
+                        res["test_scores"].append(d[f"test_{res['metric']}"])
                         res["eval_seeds"].append(test_seed)
                         res["eval_paths"].append(path.parent)
         res["test_score_mean"] = float(np.mean(res["test_scores"])) if len(res["test_scores"]) > 0 else 0
@@ -105,6 +110,9 @@ def show_best_parameters(args, results, best_results, latex: bool, incomplete: b
         print("| task | model | runs | epochs | batchsize | warmup | lr | dropout | decay | dev | test |" +
               (" path |" if args.path else ""))
         print("| --- | --- | --- | --- | --- | --- | --- | --- | --- | ---: |---: |" + (" --- |" if args.path else ""))
+
+    # print(json.dumps({model: [x["test_scores"] for x in results[(task, model)] if "test_scores" in x] for task, model in results}, indent=2))
+    # exit(0)
 
     all_dev_scores, all_test_scores = [], []
     for (task, model) in sorted(results, key=lambda x: (TASK_ORDER.index(x[0]), MODEL_ORDER.index(x[1]))):

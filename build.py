@@ -80,103 +80,107 @@ def prepare_copa(x):
 
 def prepare_tasks(args):
     # lassy* / sonar*
-    lassy_dataset = load_dataset("hf_datasets/lassy-small", data_dir=args.lassy,
-                                 split="all").remove_columns(["sent_id", "pos_tags", "feats", "lemmas"])
-    assert isinstance(lassy_dataset, Dataset)
-    sonar_ner_dataset = load_dataset("hf_datasets/sonar-1", "ne", data_dir=args.sonar,
-                                     split="all").remove_columns(["sent_nr",
-                                                                  "xner_tags"]).rename_column("ner_tags", "tags")
-    assert isinstance(sonar_ner_dataset, Dataset)
-    lassy_dataset, sonar_ner_dataset = split_sonar(lassy_dataset, sonar_ner_dataset, args.seed)
+    # lassy_dataset = load_dataset("hf_datasets/lassy-small", data_dir=args.lassy,
+    #                              split="all").remove_columns(["sent_id", "pos_tags", "feats", "lemmas"])
+    # assert isinstance(lassy_dataset, Dataset)
+    # sonar_ner_dataset = load_dataset("hf_datasets/sonar-1", "ne", data_dir=args.sonar,
+    #                                  split="all").remove_columns(["sent_nr",
+    #                                                               "xner_tags"]).rename_column("ner_tags", "tags")
+    # assert isinstance(sonar_ner_dataset, Dataset)
+    # lassy_dataset, sonar_ner_dataset = split_sonar(lassy_dataset, sonar_ner_dataset, args.seed)
 
-    # lassy-pos
-    lassy_pos_dataset = lassy_dataset.remove_columns(["doc_id", "heads", "dep_tags"]).rename_column("xpos_tags", "tags")
-    lassy_pos_id2label = lassy_pos_dataset["train"].features["tags"].feature.names
-    lassy_pos_dataset = lassy_pos_dataset.map(lambda x: {
-        "tags_str": [lassy_pos_id2label[t] for t in x["tags"]]
-    }).remove_columns(["tags"]).rename_column("tags_str", "tags")
+    # # lassy-pos
+    # lassy_pos_dataset = lassy_dataset.remove_columns(["doc_id", "heads", "dep_tags"]).rename_column("xpos_tags", "tags")
+    # lassy_pos_id2label = lassy_pos_dataset["train"].features["tags"].feature.names
+    # lassy_pos_dataset = lassy_pos_dataset.map(lambda x: {
+    #     "tags_str": [lassy_pos_id2label[t] for t in x["tags"]]
+    # }).remove_columns(["tags"]).rename_column("tags_str", "tags")
 
-    # sonar-ne
-    sonar_ner_dataset = sonar_ner_dataset.remove_columns(["doc_id"])
-    sonar_ner_id2label = sonar_ner_dataset["train"].features["tags"].feature.names
-    sonar_ner_dataset = sonar_ner_dataset.map(lambda x: {
-        "tags_str": [sonar_ner_id2label[t] for t in x["tags"]]
-    }).remove_columns(["tags"]).rename_column("tags_str", "tags")
+    # # sonar-ne
+    # sonar_ner_dataset = sonar_ner_dataset.remove_columns(["doc_id"])
+    # sonar_ner_id2label = sonar_ner_dataset["train"].features["tags"].feature.names
+    # sonar_ner_dataset = sonar_ner_dataset.map(lambda x: {
+    #     "tags_str": [sonar_ner_id2label[t] for t in x["tags"]]
+    # }).remove_columns(["tags"]).rename_column("tags_str", "tags")
 
-    # sicknl*
-    sicknl_dataset = load_dataset("hf_datasets/sick-nl").remove_columns([
-        "pair_id", "entailment_12", "entailment_21", "sentence1_original", "sentence2_original", "sentence1_dataset",
-        "sentence2_dataset"
-    ])
+    # # sicknl*
+    # sicknl_dataset = load_dataset("hf_datasets/sick-nl").remove_columns([
+    #     "pair_id", "entailment_12", "entailment_21", "sentence1_original", "sentence2_original", "sentence1_dataset",
+    #     "sentence2_dataset"
+    # ])
 
-    # sicknl-nli
-    sicknl_nli_dataset = sicknl_dataset.remove_columns(["relatedness_score"])
-    assert isinstance(sicknl_nli_dataset, DatasetDict)
-    sicknl_nli_id2label = sicknl_nli_dataset["train"].features["label"].names
-    sicknl_nli_dataset = sicknl_nli_dataset.map(lambda x: {
-        "label_str": sicknl_nli_id2label[x["label"]]
-    }).remove_columns(["label"]).rename_column("label_str", "label")
+    # # sicknl-nli
+    # sicknl_nli_dataset = sicknl_dataset.remove_columns(["relatedness_score"])
+    # assert isinstance(sicknl_nli_dataset, DatasetDict)
+    # sicknl_nli_id2label = sicknl_nli_dataset["train"].features["label"].names
+    # sicknl_nli_dataset = sicknl_nli_dataset.map(lambda x: {
+    #     "label_str": sicknl_nli_id2label[x["label"]]
+    # }).remove_columns(["label"]).rename_column("label_str", "label")
 
-    # dbrd
-    dbrd_dataset = load_dataset("hf_datasets/dbrd").remove_columns(["doc_id"])
-    assert isinstance(dbrd_dataset, DatasetDict)
-    dbrd_dataset = split_dbrd(dbrd_dataset, args.seed)
-    dbrd_id2label = dbrd_dataset["train"].features["label"].names
-    dbrd_dataset = dbrd_dataset.map(lambda x: {
-        "label_str": dbrd_id2label[x["label"]]
-    }).remove_columns(["label"]).rename_column("label_str", "label")
+    # # dbrd
+    # dbrd_dataset = load_dataset("hf_datasets/dbrd").remove_columns(["doc_id"])
+    # assert isinstance(dbrd_dataset, DatasetDict)
+    # dbrd_dataset = split_dbrd(dbrd_dataset, args.seed)
+    # dbrd_id2label = dbrd_dataset["train"].features["label"].names
+    # dbrd_dataset = dbrd_dataset.map(lambda x: {
+    #     "label_str": dbrd_id2label[x["label"]]
+    # }).remove_columns(["label"]).rename_column("label_str", "label")
 
-    # dalc
-    dalc_dataset = load_dataset("hf_datasets/dalc", data_dir=args.dalc).remove_columns(["id"])
-    assert isinstance(dalc_dataset, DatasetDict)
-    dalc_id2label = dalc_dataset["train"].features["label"].names
-    dalc_id2tgtlabel = dalc_dataset["train"].features["target_label"].names
-    dalc_id2explabel = dalc_dataset["train"].features["explicitness_label"].names
-    dalc_dataset = dalc_dataset.map(
-        lambda x: {
-            "label_str": dalc_id2label[x["label"]],
-            "target_label_str": dalc_id2tgtlabel[x["target_label"]],
-            "explicitness_label_str": dalc_id2explabel[x["explicitness_label"]],
-        }).remove_columns(["label", "target_label", "explicitness_label"]).rename_columns({
-            "label_str":
-            "label",
-            "target_label_str":
-            "target_label",
-            "explicitness_label_str":
-            "explicitness_label",
-        })
+    # # dalc
+    # dalc_dataset = load_dataset("hf_datasets/dalc", data_dir=args.dalc).remove_columns(["id"])
+    # assert isinstance(dalc_dataset, DatasetDict)
+    # dalc_id2label = dalc_dataset["train"].features["label"].names
+    # dalc_id2tgtlabel = dalc_dataset["train"].features["target_label"].names
+    # dalc_id2explabel = dalc_dataset["train"].features["explicitness_label"].names
+    # dalc_dataset = dalc_dataset.map(
+    #     lambda x: {
+    #         "label_str": dalc_id2label[x["label"]],
+    #         "target_label_str": dalc_id2tgtlabel[x["target_label"]],
+    #         "explicitness_label_str": dalc_id2explabel[x["explicitness_label"]],
+    #     }).remove_columns(["label", "target_label", "explicitness_label"]).rename_columns({
+    #         "label_str":
+    #         "label",
+    #         "target_label_str":
+    #         "target_label",
+    #         "explicitness_label_str":
+    #         "explicitness_label",
+    #     })
 
-    # copanl
-    copanl_dataset = load_dataset("hf_datasets/copa-nl").map(prepare_copa).remove_columns(
-        ["id", "premise", "choice1", "choice2", "question"])
+    # # copanl
+    # copanl_dataset = load_dataset("hf_datasets/copa-nl").map(prepare_copa).remove_columns(
+    #     ["id", "premise", "choice1", "choice2", "question"])
 
-    # wicnl
-    wicnl_dataset = load_dataset("hf_datasets/wic-nl", data_dir=args.sonar).remove_columns(["lemma"])
-    assert isinstance(wicnl_dataset, DatasetDict)
-    wicnl_id2label = wicnl_dataset["train"].features["label"].names
-    wicnl_dataset = wicnl_dataset.map(lambda x: {
-        "label_str": wicnl_id2label[x["label"]]
-    }).remove_columns(["label"]).rename_column("label_str", "label")
+    # # wicnl
+    # wicnl_dataset = load_dataset("hf_datasets/wic-nl", data_dir=args.sonar).remove_columns(["lemma"])
+    # assert isinstance(wicnl_dataset, DatasetDict)
+    # wicnl_id2label = wicnl_dataset["train"].features["label"].names
+    # wicnl_dataset = wicnl_dataset.map(lambda x: {
+    #     "label_str": wicnl_id2label[x["label"]]
+    # }).remove_columns(["label"]).rename_column("label_str", "label")
 
-    # dpr
-    dpr_dataset = load_dataset("hf_datasets/dpr").remove_columns(["span1_tokens", "span2_tokens"]).rename_column(
-        "span1_index", "index1").rename_column("span2_index", "index2")
-    assert isinstance(dpr_dataset, DatasetDict)
-    dpr_id2label = dpr_dataset["train"].features["label"].names
-    dpr_dataset = dpr_dataset.map(lambda x: {
-        "label_str": dpr_id2label[x["label"]]
-    }).remove_columns(["label"]).rename_column("label_str", "label")
+    # # dpr
+    # dpr_dataset = load_dataset("hf_datasets/dpr").remove_columns(["span1_tokens", "span2_tokens"]).rename_column(
+    #     "span1_index", "index1").rename_column("span2_index", "index2")
+    # assert isinstance(dpr_dataset, DatasetDict)
+    # dpr_id2label = dpr_dataset["train"].features["label"].names
+    # dpr_dataset = dpr_dataset.map(lambda x: {
+    #     "label_str": dpr_id2label[x["label"]]
+    # }).remove_columns(["label"]).rename_column("label_str", "label")
+
+    # squadnl
+    squadnl_dataset = load_dataset("hf_datasets/squad-nl", "nl-v2.0")
+    assert isinstance(squadnl_dataset, DatasetDict)
 
     tasks = [
-        ("copanl", copanl_dataset),  # causal reasoning
-        ("dalc", dalc_dataset),  # abusive language detection
-        ("dbrd", dbrd_dataset),  # sentiment analysis
-        ("lassy-pos", lassy_pos_dataset),  # part of speech tagging
-        # ("quadnl", quadnl_dataset),  # question answering
-        ("sicknl-nli", sicknl_nli_dataset),  # natural language inference
-        ("sonar-ne", sonar_ner_dataset),  # named entity recognition
-        ("wicnl", wicnl_dataset),  # word sense disambiguation
-        ("dpr", dpr_dataset),  # coreference resolution
+        # ("copanl", copanl_dataset),  # causal reasoning
+        # ("dalc", dalc_dataset),  # abusive language detection
+        # ("dbrd", dbrd_dataset),  # sentiment analysis
+        # ("lassy-pos", lassy_pos_dataset),  # part of speech tagging
+        # ("sicknl-nli", sicknl_nli_dataset),  # natural language inference
+        # ("sonar-ne", sonar_ner_dataset),  # named entity recognition
+        ("squadnl", squadnl_dataset),  # question answering
+        # ("wicnl", wicnl_dataset),  # word sense disambiguation
+        # ("dpr", dpr_dataset),  # coreference resolution
     ]
     return tasks
 
@@ -185,7 +189,7 @@ def main():
     parser = ArgumentParser()
     parser.add_argument("--sonar", default="/Volumes/Data/SoNaR-v1.2")
     parser.add_argument("--lassy", default="/Volumes/Data/LassySmall-v6.0")
-    parser.add_argument("--dalc", default="/Volumes/Data/DALC-v2.0")
+    parser.add_argument("--dalc", default="/Volumes/Data/DALC")
     parser.add_argument("--seed", type=int, default=872691)
     args = parser.parse_args()
 

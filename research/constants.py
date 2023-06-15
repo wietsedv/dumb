@@ -19,7 +19,6 @@ MODEL_ORDER = [
     "deberta-v3-base",
     "bert-large",
     "roberta-large",
-    # "deberta-large",
     "deberta-v3-large",
 
     # distilled
@@ -244,27 +243,27 @@ MODEL_INFO = {
 }
 
 MODEL_EMOJI = {
-    "bert-base": "flag-united-states",
-    "roberta-base": "flag-united-states",
-    "deberta-v3-base": "flag-united-states",
-    "bert-large": "flag-united-states",
-    "roberta-large": "flag-united-states",
-    "deberta-large": "flag-united-states",
-    "deberta-v3-large": "flag-united-states",
-    "bertje": "flag-netherlands",
-    "robbert-v1": "flag-netherlands",
-    "robbert-v2": "flag-netherlands",
-    "robbertje": "flag-netherlands",
-    "robbertje-shuffled": "flag-netherlands",
-    "robbertje-merged": "flag-netherlands",
-    "robbertje-bort": "flag-netherlands",
-    "robbert-2022": "flag-netherlands",
-    "mbert": "globe-showing-europe-africa",
-    "mbert-uncased": "globe-showing-europe-africa",
-    "mbert-distil": "globe-showing-europe-africa",
-    "xlmr-base": "globe-showing-europe-africa",
-    "xlmr-large": "globe-showing-europe-africa",
-    "mdeberta": "globe-showing-europe-africa",
+    "bert-base": "english",
+    "roberta-base": "english",
+    "deberta-v3-base": "english",
+    "bert-large": "english",
+    "roberta-large": "english",
+    "deberta-large": "english",
+    "deberta-v3-large": "english",
+    "bertje": "dutch",
+    "robbert-v1": "dutch",
+    "robbert-v2": "dutch",
+    "robbertje": "dutch",
+    "robbertje-shuffled": "dutch",
+    "robbertje-merged": "dutch",
+    "robbertje-bort": "dutch",
+    "robbert-2022": "dutch",
+    "mbert": "multi",
+    "mbert-uncased": "multi",
+    "mbert-distil": "multi",
+    "xlmr-base": "multi",
+    "xlmr-large": "multi",
+    "mdeberta": "multi",
 }
 
 TASK_ORDER = [
@@ -276,6 +275,7 @@ TASK_ORDER = [
     "sicknl-nli",
     "dbrd",
     "dalc",
+    "squadnl",
 ]
 
 TASK_GROUPS = {
@@ -285,7 +285,7 @@ TASK_GROUPS = {
         "copanl",
         "sicknl-nli"
     ],
-    "Document": ["dbrd", "dalc"],
+    "Document": ["dbrd", "dalc", "squadnl"],
 }
 
 TASK_PRETTY = {
@@ -297,6 +297,7 @@ TASK_PRETTY = {
     "sicknl-nli": "NLI",
     "dbrd": "SA",
     "dalc": "ALD",
+    "squadnl": "QA",
 }
 
 TASK_METRICS_PRETTY = {
@@ -308,6 +309,7 @@ TASK_METRICS_PRETTY = {
     "sicknl-nli": "Acc.",
     "dbrd": "Acc.",
     "dalc": "F1",
+    "squadnl": "F1",
 }
 
 CONFIG_KEYS = {
@@ -365,6 +367,12 @@ def get_train_params(task):
         "dbrd": {
             "e": [1, 2, 3],
             "l": [0.00003, 0.00005, 0.0001],
+        },
+
+        # question answering
+        "squadnl": {
+            "e": [2],
+            "l": [0.00003, 0.00005, 0.0001],  # 0.00001
         },
     }
     if task in TASK_WHITELIST:
