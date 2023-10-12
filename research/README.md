@@ -19,3 +19,14 @@ Scripts in this directory were used for the paper. These scripts are not necessa
 - Table 2: `python research/eval.py`
 - Table 3: `python research/table_correlate.py`
 - Table 4: `python research/table_stats.py`
+
+
+## Adding a model
+
+1. Add identfiers to `research/constants.py` and `trainers/run.sh`
+2. Grid search: `python research/missing_train.py -m {model_id}`
+3. Eval seeds: `python research/missing_eval.py -m {model_id}`
+4. Keep track of runs: `python research/list.py -m {model_id}`
+5. Show results: `python research/best.py -m {model_id} | pandoc -t plain`
+6. Export predictions: `python research/export_predictions.py -m {model_id}`
+6. Export results: `python research/eval.py`

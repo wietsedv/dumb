@@ -7,6 +7,11 @@ MODEL_ORDER = [
     "robbert-v2",
     "robbert-2022",
 
+    "robbert-2023-base",
+    "robbert-2023-large",
+    "robbert-2023-large-v2",
+    "robbert-2023-large-v2-sts",
+
     # multilingual
     "mbert",
     "xlmr-base",
@@ -31,7 +36,8 @@ MODEL_ORDER = [
 
 MODEL_GROUPS = {
     "baseline": ["bertje"],
-    "dutch-base": ["robbert-v1", "robbert-v2", "robbert-2022"],
+    "dutch-base": ["robbert-v1", "robbert-v2", "robbert-2022"], # , "robbert-2023-base"
+    # "dutch-large": ["robbert-2023-large", "robbert-2023-large-v2", "robbert-2023-large-v2-sts"],
     "multi-base": ["mbert", "xlmr-base", "mdeberta"],
     "multi-large": ["xlmr-large"],
     "english-base": ["bert-base", "roberta-base", "deberta-v3-base"],
@@ -41,9 +47,16 @@ MODEL_GROUPS = {
 
 MODEL_IDS = {
     "bertje": "GroNLP/bert-base-dutch-cased",
+
     "robbert-v1": "pdelobelle/robBERT-base",
     "robbert-v2": "pdelobelle/robbert-v2-dutch-base",
     "robbert-2022": "DTAI-KULeuven/robbert-2022-dutch-base",
+
+    "robbert-2023-base": "FremyCompany/olm-bert-oscar-nl-step4",
+    "robbert-2023-large": "FremyCompany/rl-bert-oscar-nl-step4",
+    "robbert-2023-large-v2": "FremyCompany/roberta-large-nl-oscar23",
+    "robbert-2023-large-v2-sts": "FremyCompany/stsb_ossts_roberta-large-nl-oscar23",
+
     "bert-base": "bert-base-cased",
     "roberta-base": "roberta-base",
     "deberta-base": "microsoft/mdeberta-base",
@@ -52,11 +65,13 @@ MODEL_IDS = {
     "roberta-large": "roberta-large",
     "deberta-large": "microsoft/mdeberta-large",
     "deberta-v3-large": "microsoft/mdeberta-v3-large",
+
     "mbert": "bert-base-multilingual-cased",
     # "mbert-uncased": "bert-base-multilingual-uncased",
     "xlmr-base": "xlm-roberta-base",
     "xlmr-large": "xlm-roberta-large",
     "mdeberta": "microsoft/mdeberta-v3-base",
+
     "robbertje": "DTAI-KULeuven/robbertje-1-gb-non-shuffled",
     "robbertje-shuffled": "DTAI-KULeuven/robbertje-1-gb-shuffled",
     "robbertje-merged": "DTAI-KULeuven/robbertje-1-gb-merged",
@@ -69,6 +84,12 @@ MODEL_PRETTY = {
     "robbert-v1": "RobBERT\\textsubscript{V1}",
     "robbert-v2": "RobBERT\\textsubscript{V2}",
     "robbert-2022": "RobBERT\\textsubscript{2022}",
+
+    "robbert-2023-base": "RobBERT\\textsubscript{2023-base}",
+    "robbert-2023-large": "RobBERT\\textsubscript{2023-large}",
+    "robbert-2023-large-v2": "RobBERT\\textsubscript{2023-large-v2}",
+    "robbert-2023-large-v2-sts": "RobBERT\\textsubscript{2023-large-v2-sts}",
+
     "bert-base": "BERT\\textsubscript{base}",
     "roberta-base": "RoBERTa\\textsubscript{base}",
     "deberta-base": "DeBERTa\\textsubscript{base}",
@@ -89,30 +110,6 @@ MODEL_PRETTY = {
     "mbert-distil": "DistilBERT\\textsubscript{mBERT}",
 }
 
-# MODEL_HTML = {
-#     "bertje": "🇳🇱&nbsp;BERTje",
-#     "robbert-v1": "🇳🇱&nbsp;RobBERT<sub>V1</sub>",
-#     "robbert-v2": "🇳🇱&nbsp;RobBERT<sub>V2</sub>",
-#     "robbert-2022": "🇳🇱&nbsp;RobBERT<sub>2022</sub>",
-
-#     "bert-base": "🇺🇸&nbsp;BERT<sub>base</sub>",
-#     "roberta-base": "🇺🇸&nbsp;RoBERTa<sub>base</sub>",
-#     "deberta-v3-base": "🇺🇸&nbsp;DeBERTaV3<sub>base</sub>",
-
-#     "bert-large": "🇺🇸&nbsp;BERT<sub>large</sub>",
-#     "roberta-large": "🇺🇸&nbsp;RoBERTa<sub>large</sub>",
-#     "deberta-v3-large": "🇺🇸&nbsp;DeBERTaV3<sub>large</sub>",
-
-#     "mbert": "🌍&nbsp;mBERT<sub>cased</sub>",
-#     # "mbert-uncased": "🌍&nbsp;mBERT<sub>uncased</sub>",
-#     "xlmr-base": "🌍&nbsp;XLM-R<sub>base</sub>",
-#     "xlmr-large": "🌍&nbsp;XLM-R<sub>large</sub>",
-#     "mdeberta": "🌍&nbsp;mDeBERTa<sub>base</sub>",
-
-#     "robbertje": "🇳🇱&nbsp;RobBERTje",
-#     "mbert-distil": "🌍&nbsp;DistilBERT<sub>mBERT</sub>",
-# }
-
 MODEL_INFO = {
     "bertje": {
         "name": "BERTje",
@@ -121,13 +118,13 @@ MODEL_INFO = {
         "size": "base"
     },
     "robbert-v1": {
-        "name": "RobBERT<sub>V1</sub>",
+        "name": "RobBERT<sub>v1</sub>",
         "lang": "dutch",
         "type": "roberta",
         "size": "base"
     },
     "robbert-v2": {
-        "name": "RobBERT<sub>V2</sub>",
+        "name": "RobBERT<sub>v2</sub>",
         "lang": "dutch",
         "type": "roberta",
         "size": "base"
@@ -137,6 +134,30 @@ MODEL_INFO = {
         "lang": "dutch",
         "type": "roberta",
         "size": "base"
+    },
+    "robbert-2023-base": {
+        "name": "RobBERT<sub>2023</sub>",
+        "lang": "dutch",
+        "type": "roberta",
+        "size": "base"
+    },
+    "robbert-2023-large": {
+        "name": "RobBERT<sub>2023 large</sub>",
+        "lang": "dutch",
+        "type": "roberta",
+        "size": "large"
+    },
+    "robbert-2023-large-v2": {
+        "name": "RobBERT<sub>2023 large v2</sub>",
+        "lang": "dutch",
+        "type": "roberta",
+        "size": "large"
+    },
+    "robbert-2023-large-v2-sts": {
+        "name": "RobBERT<sub>2023 large v2 sts</sub>",
+        "lang": "dutch",
+        "type": "roberta",
+        "size": "large"
     },
     "bert-base": {
         "name": "BERT<sub>base</sub>",

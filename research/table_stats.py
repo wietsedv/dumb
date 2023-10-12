@@ -13,7 +13,15 @@ sns.set_style("whitegrid")
 with open("exports/table.json") as f:
     data = json.load(f)
 
-rows = [{"Language": row["lang"], "Model": row["type"], "Size": row["size"], "RER": np.mean([t["rer"] * 100 for t in row["tasks"].values()]) } for row in data]
+rows = [
+    {
+        "Language": row["lang"],
+        "Model": row["type"],
+        "Size": row["size"],
+        "RER": np.mean([t["rer"] * 100 for t in row["tasks"].values()]),
+    }
+    for row in data
+]
 
 df = pd.DataFrame(rows)
 # print(df)
@@ -59,3 +67,31 @@ print(m0.summary())
 # sns.violinplot(data=df, x="Size", y="RER")
 # plt.savefig(f"exports/violin-size.png")
 # plt.close()
+
+missing = [
+    { "Language": "dutch", "Model": "bert", "Size": "large" },
+    { "Language": "dutch", "Model": "roberta", "Size": "large"},
+    { "Language": "dutch", "Model": "debertav3", "Size": "base"},
+    { "Language": "dutch", "Model": "debertav3", "Size": "large"},
+    { "Language": "multilingual", "Model": "bert", "Size": "large"},
+    { "Language": "multilingual", "Model": "debertav3", "Size": "large"},
+]
+
+print("\nEstimated RERs:")
+# for lang, model, size in missing:
+#     rer = m0.params["Intercept"] + m0.params.get(f"Language[T.{lang}]", 0) + m0.params.get(f"Model[T.{model}]", 0) + m0.params.get(f"Size[T.{size}]", 0)
+#     print(f"{lang:>15} {model:>12} {size:>8} {rer:>8.1f}")
+
+print("| Language | Model | Size | Est. RER | SE |")
+print("| --- | --- | --- | ---: | ---: |")
+for ex in missing:
+    p = m0.get_prediction(exog=ex)
+    print(f"| {ex['Language']:>8} | {ex['Model']:>8} | {ex['Size']:>8} | {p.predicted_mean[0]:>8.1f} | {p.se_mean[0]:>8.1f} |")
+
+print()
+# print(m0.conf_int(0.05))
+
+# print()
+# p = m0.get_prediction(exog=dict(Language="dutch", Model="bert", Size="large"))
+# s = p.summary_frame(alpha=0.05)
+# print(s)

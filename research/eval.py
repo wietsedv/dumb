@@ -410,13 +410,13 @@ def main():
     parser.add_argument("-t", "--tasks", nargs="*", default=TASK_ORDER)
     parser.add_argument("-m", "--models", nargs="*", default=MODEL_ORDER)
     parser.add_argument("--ensemble", action="store_true")
-    parser.add_argument("--lazy", action="store_true")
+    parser.add_argument("--unlazy", action="store_true")
     args = parser.parse_args()
 
     # base_path = Path("exports") / "predictions"
 
     table = aggregate_results(args.tasks, args.models, args.ensemble)
-    rows = generate_table(args.tasks, args.models, args.ensemble, table, args.lazy)
+    rows = generate_table(args.tasks, args.models, args.ensemble, table, not args.unlazy)
 
     with open("exports/table.json", "w") as f:
         json.dump(rows, f, indent=2)
