@@ -44,6 +44,9 @@ elif [ $model = "deberta-v3-large" ] && [ $train_batch_size = "32" ] && [ $task 
 elif [ $model = "deberta-v3-large" ] && [ $train_batch_size = "32" ] && [ $task = "dbrd" ]; then
     train_batch_size=8
     gradient_accumulation_steps=4
+elif [ $model = "robbert-2023-large" ] && [ $train_batch_size = "32" ] && [ $task = "dbrd" ]; then
+    train_batch_size=8
+    gradient_accumulation_steps=4
 elif [[ $model == *-large* ]] && [ $train_batch_size = "32" ]; then
     if [ $task = "lassy-pos" ] || [ $task = "sonar-ne" ] || [ $task = "wicnl" ] || [ $task = "dalc" ] || [ $task = "dbrd" ] || [ $task = "squadnl" ]; then
         train_batch_size=16
@@ -70,6 +73,7 @@ elif [ ${model} = "robbert-2022" ]; then model_path="DTAI-KULeuven/robbert-2022-
 
 elif [ ${model} = "robbert-2023-base" ]; then model_path="FremyCompany/olm-bert-oscar-nl-step4"
 elif [ ${model} = "robbert-2023-large" ]; then model_path="FremyCompany/rl-bert-oscar-nl-step4"
+elif [ ${model} = "robbert-2023-base-v2" ]; then model_path="FremyCompany/roberta-base-nl-oscar23"
 elif [ ${model} = "robbert-2023-large-v2" ]; then model_path="FremyCompany/roberta-large-nl-oscar23"
 elif [ ${model} = "robbert-2023-large-v2-sts" ]; then model_path="FremyCompany/stsb_ossts_roberta-large-nl-oscar23"
 

@@ -4,6 +4,7 @@ from argparse import ArgumentParser
 from pathlib import Path
 import numpy as np
 import os
+import json
 
 from constants import TASK_ORDER, MODEL_ORDER, get_test_seeds
 from best import load_results, find_best_results
@@ -39,6 +40,18 @@ def main():
     for task, model, src_dirs in find_paths(args.tasks, args.models, best_results):
         tgt_dir = tgt_path = Path("exports") / "predictions" / task / model
         os.makedirs(tgt_dir, exist_ok=True)
+
+        if task == "squadnl":
+            # print(f"Not doing anything for squadnl: {src_dirs}")
+            scores = []
+            for src_dir in src_dirs:
+                with open(src_dir / "predict_results.json") as f:
+                    scores.append(json.load(f)["test_f1"])
+            tgt_path = tgt_dir / "scores.json"
+            with open(tgt_path, "w") as f:
+                json.dump(scores, f)
+            print(f"??? => {tgt_path}")
+            continue
 
         # TODO create ensemble
         for i, src_dir in enumerate(src_dirs, start=1):
