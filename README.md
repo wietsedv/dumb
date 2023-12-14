@@ -2,7 +2,7 @@
 
 This repository contains the data processing and reference implementations for DUMB, a Dutch Model Benchmark.
 
-An up-to-date leaderboard for this benchmark can be found on [dumbench.nl](https://dumbench.nl). The paper about this benchmark will be published at EMNLP 2023 and can be found on [arxiv](https://arxiv.org/abs/2305.13026).
+An up-to-date leaderboard for this benchmark can be found on [dumbench.nl](https://dumbench.nl). The paper about this benchmark is published at EMNLP 2023 and can be found [here](https://aclanthology.org/2023.emnlp-main.447.pdf).
 
 ## Citation
 
@@ -10,15 +10,20 @@ If you want to cite the benchmark, code, leaderboard or the accompanying paper, 
 
 ```bibtex
 @inproceedings{de-vries-etal-2023-dumb,
-    title = "DUMB: A Benchmark for Smart Evaluation of Dutch Models",
+    title = "{DUMB}: A Benchmark for Smart Evaluation of {D}utch Models",
     author = "de Vries, Wietse  and
-        Wieling, Martijn  and
-        Nissim, Malvina",
+      Wieling, Martijn  and
+      Nissim, Malvina",
+    editor = "Bouamor, Houda  and
+      Pino, Juan  and
+      Bali, Kalika",
     booktitle = "Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing",
     month = dec,
     year = "2023",
-    address = "Singapore, Singapore",
+    address = "Singapore",
     publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2023.emnlp-main.447",
+    pages = "7221--7241",
 }
 ```
 
