@@ -2,7 +2,7 @@
 
 This repository contains the data processing and reference implementations for DUMB, a Dutch Model Benchmark.
 
-An up-to-date leaderboard for this benchmark can be found on [dumbench.nl](https://dumbench.nl). The paper about this benchmark is published at EMNLP 2023 and can be found [here](https://aclanthology.org/2023.emnlp-main.447.pdf).
+An up-to-date leaderboard for this benchmark can be found on [https://wietsedv.github.io/dumbench/](https://wietsedv.github.io/dumbench/). The paper about this benchmark is published at EMNLP 2023 and can be found [here](https://aclanthology.org/2023.emnlp-main.447.pdf).
 
 ## Citation
 
